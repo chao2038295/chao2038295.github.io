@@ -1,1 +1,313 @@
-hello itcast.
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>newSnake</title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			var map;
+			
+			var mapwidth=1000;
+			var mapheight=800;
+			var snake=[
+				[4,5,"#fff","right",null],
+				[3,5,"black","right",null],
+				[2,5,"black","right",null],
+				[1,5,"black","right",null],
+				[0,5,"black","right",null]
+				
+			]
+			var snakeD=50;
+			var food;
+			var m;
+			var fleft,ftop;
+			
+			function Cmap(){
+				map = document.createElement("div");
+				map.style.width=mapwidth+"px";
+				map.style.height=mapheight+"px";
+				map.style.position="relative";
+				map.style.margin="0 auto"
+				map.style.backgroundColor="blue";
+				document.body.appendChild(map);
+				
+			}
+			function Csnake(){
+				for(var i=0;i<snake.length;i++){
+					if(snake[i][4]==null){
+				snake[i][4] = document.createElement("div");
+				snake[i][4].style.width=snakeD+"px";
+				snake[i][4].style.height=snakeD+"px";
+				snake[i][4].style.backgroundColor=snake[i][2];
+				snake[i][4].style.position="absolute";
+				snake[i][4].style.borderRadius="25px";
+				snake[i][4].style.left=snake[i][0]*snakeD+"px";
+				snake[i][4].style.top=snake[i][1]*snakeD+"px";
+				
+				if(i==0){
+					snake[i][4].innerHTML="<font size='6'>:)</font>"
+					snake[i][4].style.textAlign="center";
+					snake[i][4].style.lineHeight=snakeD+"px";
+					
+					}
+				}
+				map.appendChild(snake[i][4]);
+				
+				}
+			};
+			function Cfood(){
+				food=document.createElement("div");
+				food.style.width=snakeD+"px";
+				food.style.height=snakeD+"px";
+				food.style.backgroundColor="yellow";
+				food.style.position="absolute";
+				foodWZ();
+				food.style.left=fleft*snakeD+"px";
+				food.style.top=ftop*snakeD+"px";
+				map.appendChild(food);
+			}
+			function MoveR(){
+				for(var j=snake.length-1;j>0;j--){
+					if((snake[0][0]+1)==snake[j][0]&&snake[0][1]==snake[j][1]){
+						GameOver();
+						NewGame();
+						break;
+						
+					}
+				}
+				if((snake[0][0]+1)==fleft&&snake[0][1]==ftop){
+					var newBody=[null,null,"red",null,null]
+					newBody[0]=snake[snake.length-1][0]+1;
+					newBody[1]=snake[snake.length-1][1];
+					newBody[3]=snake[snake.length-1][3];
+					snake.push(newBody);
+			Newfood();
+					
+				}
+				Csnake();
+				for(var j=snake.length-1;j>0;j--){
+					snake[j][0]=snake[j-1][0];
+					snake[j][1]=snake[j-1][1];
+					snake[j][4].style.left=snake[j][0]*snakeD+"px";
+					snake[j][4].style.top=snake[j][1]*snakeD+"px";
+					
+				}
+				
+				snake[0][0]+=1;
+				snake[0][4].style.left=snake[0][0]*snakeD+"px";
+				snake[0][4].style.top=snake[0][1]*snakeD+"px";
+// 				
+// 				
+				
+			
+				m=setTimeout("MoveR()",600);
+				
+			}
+			function MoveD(){
+				for(var j=snake.length-1;j>0;j--){
+					if((snake[0][1]+1)==snake[j][1]&&snake[0][0]==snake[j][0]){
+						GameOver();
+						NewGame();
+						break;
+						
+					}
+				}
+				if((snake[0][0])==fleft&&(snake[0][1]+1)==ftop){
+					var newBody=[null,null,"red",null,null]
+					newBody[0]=snake[snake.length-1][0];
+					newBody[1]=snake[snake.length-1][1]+1;
+					newBody[3]=snake[snake.length-1][3];
+					snake.push(newBody);
+				Newfood();
+					
+				}
+				Csnake();
+				for(var j=snake.length-1;j>0;j--){
+					snake[j][0]=snake[j-1][0];
+					snake[j][1]=snake[j-1][1];
+					snake[j][4].style.left=snake[j][0]*snakeD+"px";
+					snake[j][4].style.top=snake[j][1]*snakeD+"px";
+					
+				}
+				
+				//snake[0][0]+=1;
+				snake[0][1]+=1;
+				snake[0][4].style.left=snake[0][0]*snakeD+"px";
+				snake[0][4].style.top=snake[0][1]*snakeD+"px";
+				
+				m=setTimeout("MoveD()",600);
+			}
+			function MoveL(){
+					for(var j=snake.length-1;j>0;j--){
+					if((snake[0][0]-1)==snake[j][0]&&snake[0][1]==snake[j][1]){
+						GameOver();
+						NewGame();
+						break;
+						
+					}
+				}
+				if((snake[0][0]-1)==fleft&&(snake[0][1])==ftop){
+					var newBody=[null,null,"red",null,null]
+					newBody[0]=snake[snake.length-1][0]-1;
+					newBody[1]=snake[snake.length-1][1];
+					newBody[3]=snake[snake.length-1][3];
+					snake.push(newBody);
+				Newfood();
+					
+				}
+				Csnake();
+				for(var j=snake.length-1;j>0;j--){
+					snake[j][0]=snake[j-1][0];
+					snake[j][1]=snake[j-1][1];
+					snake[j][4].style.left=snake[j][0]*snakeD+"px";
+					snake[j][4].style.top=snake[j][1]*snakeD+"px";
+					
+				}
+				
+				snake[0][0]-=1;
+				// snake[0][1]+=1;
+				snake[0][4].style.left=snake[0][0]*snakeD+"px";
+				snake[0][4].style.top=snake[0][1]*snakeD+"px";
+				
+				m=setTimeout("MoveL()",600);
+// 				for(var j=snake.length-1;j>0;j--){
+// 					
+// 				}
+				
+			}
+			function MoveT(){
+				for(var j=snake.length-1;j>0;j--){
+					if((snake[0][1]-1)==snake[j][1]&&snake[0][0]==snake[j][0]){
+						
+						GameOver();
+						NewGame();
+						break;
+						
+					}
+				}
+				if((snake[0][0])==fleft&&(snake[0][1]-1)==ftop){
+					var newBody=[null,null,"red",null,null]
+					newBody[0]=snake[snake.length-1][0];
+					newBody[1]=snake[snake.length-1][1]-1;
+					newBody[3]=snake[snake.length-1][3];
+					snake.push(newBody);
+					Newfood();
+				}
+			
+				Csnake();
+				for(var j=snake.length-1;j>0;j--){
+					snake[j][0]=snake[j-1][0];
+					snake[j][1]=snake[j-1][1];
+					snake[j][4].style.left=snake[j][0]*snakeD+"px";
+					snake[j][4].style.top=snake[j][1]*snakeD+"px";
+					
+				}
+				
+				//snake[0][0]-=1;
+				snake[0][1]-=1;
+				snake[0][4].style.left=snake[0][0]*snakeD+"px";
+				snake[0][4].style.top=snake[0][1]*snakeD+"px";
+				
+				m=setTimeout("MoveT()",600);
+			}
+			
+			function GameOver(){
+				clearTimeout(m);
+				alert("你死了！");
+				for(var i=0;i<5;i++){
+									snake[i][0] = (4-i);
+									snake[i][1]=5;
+								}
+				
+
+// 				map.removeChild(snake);
+// 				map.removeChild(food);
+				location.reload();
+
+				
+			}
+			
+			function NewGame(){
+				Cmap();
+				Csnake();
+				Cfood();
+				
+			}
+			function	Newfood(){
+				foodWZ();
+				food.style.left=fleft*snakeD+"px";
+			 	food.style.top=ftop*snakeD+"px";
+
+			}
+			function foodWZ(){
+				fleft=Math.floor(Math.random()*(mapwidth/snakeD));
+				ftop=Math.floor(Math.random()*(mapheight/snakeD));
+				for(var i=0;i<snake.length;i++)
+				{
+					if(fleft==snake[i][0]&&ftop==snake[i][1]){
+					foodWZ();
+					}
+					
+					
+				}
+			}
+
+			document.onkeydown=function(event){
+				var e = event || window.event || arguments.callee.caller.arguments[0];
+				if(e && e.keyCode==37){ // 按 Esc 
+					//要做的事情
+					// ClearMove();
+					// m=setTimeout("MoveL()",600);
+					if((snake[0][0]-1)!=snake[1][0]){
+					clearTimeout(m);
+					MoveL();
+					}else{
+						null;
+					}
+					}
+				if(e && e.keyCode==38){ // 按 F2 
+					//要做的事情
+					// ClearMove();
+					// m=setTimeout("MoveT()",600);
+					if((snake[0][1]-1)!=snake[1][1]){
+					clearTimeout(m);
+					MoveT();
+					}else{
+						null;
+					}
+					}            
+				if(e && e.keyCode==39){ // enter 键
+					//要做的事情
+					// ClearMove();
+					// m=setTimeout("MoveR()",600);
+					if((snake[0][0]+1)!=snake[1][0]){
+					clearTimeout(m);
+					MoveR();
+					}else{
+						null;
+					}
+						 }
+				if(e && e.keyCode==40){ // enter 键
+				 	//要做的事情
+					// ClearMove();
+					// m=setTimeout("MoveD()",600);
+					if((snake[0][1]+1)!=snake[1][1]){
+					clearTimeout(m);
+					MoveD();
+					}else{
+						null;
+					}
+						}
+				 }; 
+			window.onload=function(){
+// 				Cmap();
+// 				Csnake();
+// 				Cfood();
+				NewGame();
+			};
+			
+		</script>
+	</body>
+</html>
+
